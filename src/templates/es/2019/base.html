@@ -1,4 +1,4 @@
-{% extends "base/2019/base.html" %}
+{% extends "base/base.html" %}
 
 {% block description %}Web Almanac 2019 por HTTP Archive es un estado anual de la web que combina las estadísticas y tendencias sin procesar del HTTP Archive con la experiencia de la comunidad web{% endblock %}
 
@@ -95,7 +95,6 @@ Nuestra misión es combinar las estadísticas y tendencias sin procesar del HTTP
 {% if not read_last_years_chapter %}
 {% macro read_last_years_chapter(chapter) %}Lea el {{ year|int -1 }} Capítulo: <span class="featured-chapter-name">{{ chapter }}</span>{% endmacro %}
 {% endif %}
-
 
 {% block contributors_description %}
 Web Almanac ha sido posible gracias al arduo trabajo de la comunidad web. {{ self.contributors() }} personas han ofrecido incontables horas en las fases de planificación, investigación, redacción y producción.
