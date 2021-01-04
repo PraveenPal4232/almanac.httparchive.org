@@ -4,8 +4,9 @@ chapter_number: 1
 title: JavaScript
 description: JavaScript chapter of the 2019 Web Almanac covering how much JavaScript we use on the web, compression, libraries and frameworks, loading, and source maps.
 authors: [housseindjirdeh]
-reviewers: [obto, paulcalvano, mathiasbynens]
+reviewers: [obto, paulcalvano, mathiasbynens, rviscomi]
 analysts: [rviscomi]
+editors: [obto]
 translators: []
 discuss: 1756
 results: https://docs.google.com/spreadsheets/d/1kBTglETN_V9UjKqK_EFmFjRexJnQOmLLr-I2Tkotvic/
@@ -146,8 +147,8 @@ In the context of browser-server interactions, resource compression refers to co
 
 There are multiple text-compression algorithms, but only two are mostly used for the compression (and decompression) of HTTP network requests:
 
-- [Gzip](https://www.gzip.org/) (gzip): The most widely used compression format for server and client interactions
-- [Brotli](https://github.com/google/brotli) (br): A newer compression algorithm aiming to further improve compression ratios. [90% of browsers](https://caniuse.com/#feat=brotli) support Brotli encoding.
+- [Gzip](https://www.gzip.org/) (`gzip`): The most widely used compression format for server and client interactions
+- [Brotli](https://github.com/google/brotli) (`br`): A newer compression algorithm aiming to further improve compression ratios. [90% of browsers](https://caniuse.com/#feat=brotli) support Brotli encoding.
 
 Compressed scripts will always need to be uncompressed by the browser once transferred. This means its content remains the same and execution times are not optimized whatsoever. Resource compression, however, will always improve download times which also is one of the most expensive stages of JavaScript processing. Ensuring JavaScript files are compressed correctly can be one of the most significant factors in improving site performance.
 
@@ -155,8 +156,8 @@ How many sites are compressing their JavaScript resources?
 
 {{ figure_markup(
   image="fig10.png",
-  caption="Percentage of sites compressing JavaScript resources with gzip or brotli.",
-  description="Bar chart showing 67%/65% of JavaScript resources are compressed with gzip on desktop and mobile respectively, and 15%/14% are compressed using Brotli.",
+  caption="Percentage of sites compressing JavaScript resources with Gzip or Brotli.",
+  description="Bar chart showing 67%/65% of JavaScript resources are compressed with Gzip on desktop and mobile respectively, and 15%/14% are compressed using Brotli.",
   chart_url="https://docs.google.com/spreadsheets/d/e/2PACX-1vTpzDb9HGbdVvin6YPTOmw11qBVGGysltxmH545fUfnqIThAq878F_b-KxUo65IuXaeFVSnlmJ5K1Dm/pubchart?oid=241928028&format=interactive"
   )
 }}
@@ -313,12 +314,12 @@ In the past number of years, the JavaScript ecosystem has seen a rise in open-so
   )
 }}
 
-Only a subset of popular frameworks are being analyzed here, but it's important to note that all of them either follow one of these two approaches:   
+Only a subset of popular frameworks are being analyzed here, but it's important to note that all of them either follow one of these two approaches:
 
-- A [model-view-controller](https://developer.chrome.com/apps/app_frameworks) (or model-view-viewmodel) architecture   
-- A component-based architecture   
+- A [model-view-controller](https://developer.chrome.com/apps/app_frameworks) (or model-view-viewmodel) architecture
+- A component-based architecture
 
-Although there has been a shift towards a component-based model, many older frameworks that follow the MVC paradigm ([AngularJS](https://angularjs.org/), [Backbone.js](https://backbonejs.org/), [Ember](https://emberjs.com/)) are still being used in thousands of pages. However, [React](https://reactjs.org/), [Vue](https://vuejs.org/) and [Angular](https://angular.io/) are the most popular component-based frameworks ([Zone.js](https://github.com/angular/zone.js) is a package that is now part of Angular core).   
+Although there has been a shift towards a component-based model, many older frameworks that follow the MVC paradigm ([AngularJS](https://angularjs.org/), [Backbone.js](https://backbonejs.org/), [Ember](https://emberjs.com/)) are still being used in thousands of pages. However, [React](https://reactjs.org/), [Vue](https://vuejs.org/) and [Angular](https://angular.io/) are the most popular component-based frameworks ([Zone.js](https://github.com/angular/zone.js) is a package that is now part of Angular core).
 
 ## Differential loading
 
@@ -365,7 +366,7 @@ Similarly, very few sites (0.50%-0.80%) use the `nomodule` attribute for any scr
 [Preload](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content) and [prefetch](https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ) are [resource hints](./resource-hints) which enable you to aid the browser in determining what resources need to be downloaded.
 
 - Preloading a resource with `<link rel="preload">` tells the browser to download this resource as soon as possible. This is especially helpful for critical resources which are discovered late in the page loading process (e.g., JavaScript located at the bottom of your HTML) and are otherwise downloaded last.
-- Using `<link rel="prefetch">` tells the browser to take advantage of any idle time it has to fetch these resources needed for future navigations 
+- Using `<link rel="prefetch">` tells the browser to take advantage of any idle time it has to fetch these resources needed for future navigations
 
 So, how many sites use preload and prefetch directives?
 

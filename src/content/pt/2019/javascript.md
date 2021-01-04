@@ -4,8 +4,9 @@ chapter_number: 1
 title: JavaScript
 description: Capítulo de JavaScript de 2019 Web Almanac que cobre quanto JavaScript usamos na web, compressão, bibliotecas e estruturas, carregamento e mapas de origem.
 authors: [housseindjirdeh]
-reviewers: [obto, paulcalvano, mathiasbynens]
+reviewers: [obto, paulcalvano, mathiasbynens, rviscomi]
 analysts: [rviscomi]
+editors: [obto]
 translators: [HakaCode]
 discuss: 1756
 results: https://docs.google.com/spreadsheets/d/1kBTglETN_V9UjKqK_EFmFjRexJnQOmLLr-I2Tkotvic/
@@ -146,8 +147,8 @@ No contexto das interações navegador-servidor, a compactação de recursos se 
 
 Existem vários algoritmos de compactação de texto, mas apenas dois são usados ​​principalmente para compactação (e descompressão) de solicitações de rede HTTP:
 
-- [Gzip](https://www.gzip.org/) (gzip): O formato de compactação mais amplamente usado para interações de servidor e cliente.
-- [Brotli](https://github.com/google/brotli) (br): Um algoritmo de compressão mais recente que visa melhorar ainda mais as taxas de compressão. [90% dos navegadores](https://caniuse.com/#feat=brotli) eles suportam a codificação Brotli.
+- [Gzip](https://www.gzip.org/) (`gzip`): O formato de compactação mais amplamente usado para interações de servidor e cliente.
+- [Brotli](https://github.com/google/brotli) (`br`): Um algoritmo de compressão mais recente que visa melhorar ainda mais as taxas de compressão. [90% dos navegadores](https://caniuse.com/#feat=brotli) eles suportam a codificação Brotli.
 
 Scripts compactados devem sempre ser descompactados pelo navegador depois de transferidos. Isso significa que seu conteúdo permanece o mesmo e os tempos de execução não são otimizados de forma alguma. No entanto, a compactação de recursos sempre melhorará os tempos de download, que também é um dos estágios mais caros do processamento de JavaScript. Garantir que os arquivos JavaScript sejam compactados corretamente pode ser um dos fatores mais importantes para melhorar o desempenho do site.
 
@@ -155,8 +156,8 @@ Quantos sites estão compactando seus recursos JavaScript?
 
 {{ figure_markup(
   image="/static/images/2019/javascript/fig10.png",
-  caption="Porcentagem de sites que compactam recursos JavaScript com gzip ou brotli.",
-  description="Gráfico de barras mostrando 67% / 65% dos recursos JavaScript são compactados com gzip em desktops e dispositivos móveis, respectivamente, e 15% / 14% são compactados com Brotli.",
+  caption="Porcentagem de sites que compactam recursos JavaScript com Gzip ou Brotli.",
+  description="Gráfico de barras mostrando 67% / 65% dos recursos JavaScript são compactados com Gzip em desktops e dispositivos móveis, respectivamente, e 15% / 14% são compactados com Brotli.",
   chart_url="https://docs.google.com/spreadsheets/d/e/2PACX-1vTpzDb9HGbdVvin6YPTOmw11qBVGGysltxmH545fUfnqIThAq878F_b-KxUo65IuXaeFVSnlmJ5K1Dm/pubchart?oid=241928028&format=interactive"
   )
 }}
@@ -313,12 +314,12 @@ Nos últimos anos, o ecossistema JavaScript tem visto um aumento em bibliotecas 
   )
 }}
 
-Apenas um subconjunto de estruturas populares é discutido aqui, mas é importante observar que todos eles seguem uma das duas abordagens:   
+Apenas um subconjunto de estruturas populares é discutido aqui, mas é importante observar que todos eles seguem uma das duas abordagens:
 
-- Arquitetura [modelo-visualização-controlador](https://developer.chrome.com/apps/app_frameworks) (ou model-view-viewmodel)   
-- Arquitetura baseada em componentes   
+- Arquitetura [modelo-visualização-controlador](https://developer.chrome.com/apps/app_frameworks) (ou model-view-viewmodel)
+- Arquitetura baseada em componentes
 
-Embora tenha havido uma mudança em direção a um modelo baseado em componentes, muitos frameworks mais antigos que seguem o paradigma MVC ([AngularJS](https://angularjs.org/), [Backbone.js](https://backbonejs.org/), [Ember](https://emberjs.com/)) ainda estão sendo usados em milhares de páginas. Contudo, [React](https://reactjs.org/), [Vue](https://vuejs.org/) e [Angular](https://angular.io/) são frameworks baseadas em componentes mais populares ([Zone.js](https://github.com/angular/zone.js) é um pacote que agora faz parte do núcleo Angular).   
+Embora tenha havido uma mudança em direção a um modelo baseado em componentes, muitos frameworks mais antigos que seguem o paradigma MVC ([AngularJS](https://angularjs.org/), [Backbone.js](https://backbonejs.org/), [Ember](https://emberjs.com/)) ainda estão sendo usados em milhares de páginas. Contudo, [React](https://reactjs.org/), [Vue](https://vuejs.org/) e [Angular](https://angular.io/) são frameworks baseadas em componentes mais populares ([Zone.js](https://github.com/angular/zone.js) é um pacote que agora faz parte do núcleo Angular).
 
 ## Carregamento diferencial
 
@@ -365,7 +366,7 @@ Da mesma forma, poucos sites (0,50% - 0,80%) usam o atributo `nomodule` para qua
 [Preload](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Preloading_content) e [prefetch](https://developer.mozilla.org/en-US/docs/Web/HTTP/Link_prefetching_FAQ) são [dicas de recursos](./resource-hints) que permitem que você ajude o navegador a determinar quais recursos precisam ser baixados.
 
 - Pré-carregar um recurso com `<link rel="preload">` diz ao navegador para baixar este recurso o mais rápido possível. Isso é especialmente útil para recursos críticos que são descobertos no final do processo de carregamento da página (por exemplo, JavaScript localizado na parte inferior de seu HTML) e, caso contrário, são baixados por último.
-- Usar `<link rel="prefetch">` diz ao navegador para tirar vantagem de qualquer tempo ocioso que ele tenha para buscar esses recursos necessários para navegações futuras. 
+- Usar `<link rel="prefetch">` diz ao navegador para tirar vantagem de qualquer tempo ocioso que ele tenha para buscar esses recursos necessários para navegações futuras.
 
 Então, quantos sites usam diretivas de preload e prefetch?
 

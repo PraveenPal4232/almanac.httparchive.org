@@ -11,9 +11,12 @@ const { generate_featured_chapters, generate_chapter_featured_quote } = require(
 const { generate_sitemap } = require('./generate_sitemap');
 const { lazy_load_content } = require('./lazy_load_content');
 const { wrap_tables } = require('./wrap_tables');
+const { generate_table_figure_dropdowns } = require('./generate_table_figure_dropdowns');
 const { remove_unnecessary_markup } = require('./remove_unnecessary_markup');
 const { generate_ebooks } = require('./generate_ebooks');
 const { generate_js } = require('./generate_js');
+const { generate_syntax_highlighting } = require('./generate_syntax_highlighting');
+const { get_contributors_difference } = require("./get_contributors_diff");
 
 const converter = new showdown.Converter({ tables: true, metadata: true });
 converter.setFlavor('github');
@@ -31,9 +34,16 @@ const generate_chapters = async (chapter_match) => {
   let chapter_config = {};
   let featured_quotes = {};
   let re;
-  
+  let contributors = {};
+
   configs = await get_yearly_configs();
-  for (const year in configs) {  
+  for (const year in configs) {
+    contributors[year] = {
+      "authors": new Set(),
+      "reviewers": new Set(),
+      "analysts": new Set(),
+      "editors": new Set()
+    };
     sitemap_languages[year] = configs[year].settings[0].supported_languages;
     for (const part in configs[year].outline) {
       for (const chapter in configs[year].outline[part].chapters) {
@@ -46,7 +56,7 @@ const generate_chapters = async (chapter_match) => {
       }
     }
   }
-  
+
   if (chapter_match) {
     // Remove any trailing .md and replace all paths with brackets to capture components
     // en/2019/javascript.md -> (en)/(2019)/(javascript).md
@@ -97,6 +107,16 @@ const generate_chapters = async (chapter_match) => {
         ebook_chapters.push({ language, year, chapter, metadata, body, toc });
       }
 
+      const {authors, reviewers, analysts, editors} = metadata;
+      if(authors && authors.length >0)
+        authors.forEach(author=>contributors[year]["authors"].add(author));
+      if(reviewers && reviewers.length > 0)
+        reviewers.forEach(reviewer=>contributors[year]["reviewers"].add(reviewer));
+      if(analysts && analysts.length > 0)
+        analysts.forEach(analyst=>contributors[year]["analysts"].add(analyst));
+      if(editors && editors.length > 0)
+        editors.forEach(editor=>contributors[year]["editors"].add(editor));
+
       await write_template(language, year, chapter, metadata, body, toc);
     } catch (error) {
       console.error(error);
@@ -112,6 +132,8 @@ const generate_chapters = async (chapter_match) => {
 
     const sitemap_path = await generate_sitemap(sitemap,sitemap_languages);
     await size_of(sitemap_path);
+
+    await get_contributors_difference(configs, contributors);
   }
 
 };
@@ -121,9 +143,11 @@ const parse_file = async (markdown,chapter) => {
   let body = html;
 
   const m = converter.getMetadata();
+  body = generate_syntax_highlighting(body);
   body = generate_header_links(body);
   body = generate_figure_ids(body);
   body = wrap_tables(body);
+  body = generate_table_figure_dropdowns(body);
   body = lazy_load_content(body);
   body = remove_unnecessary_markup(body);
   const toc = generate_table_of_contents(body);
@@ -139,6 +163,10 @@ const parse_file = async (markdown,chapter) => {
   if (m.analysts) {
     analysts = parse_array(m.analysts);
   }
+  let editors;
+  if (m.editors) {
+    editors = parse_array(m.editors);
+  }
 
   const metadata = {
     ...m,
@@ -147,7 +175,8 @@ const parse_file = async (markdown,chapter) => {
     authors,
     reviewers,
     translators,
-    analysts
+    analysts,
+    editors
   };
 
   return { metadata, body, toc };

@@ -6,6 +6,7 @@ description: Fonts chapter of the 2019 Web Almanac covering where fonts are load
 authors: [zachleat]
 reviewers: [hyperpress, AymenLoukil]
 analysts: [tjmonsi, rviscomi]
+editors: [bazzadp]
 translators: []
 discuss: 1761
 results: https://docs.google.com/spreadsheets/d/108g6LXdC3YVsxmX1CCwrmpZ3-DmbB8G_wwgQHX5pn6Q/
@@ -210,7 +211,9 @@ Wow! Less than 2% of pages are using [`preconnect`](https://web.dev/uses-rel-pre
 
 In fact, if you're using Google Fonts go ahead and add this to your `<head>` if it's not there already:
 
-```<link rel="preconnect" href="https://fonts.gstatic.com/">```
+```html
+<link rel="preconnect" href="https://fonts.gstatic.com/">
+```
 
 ### Most popular typefaces
 
